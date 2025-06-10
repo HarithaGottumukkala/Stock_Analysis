@@ -6,7 +6,7 @@ const StockList = ({ refresh }) => {
   const [stocks, setStocks] = useState([]);
 
   const fetchStocks = async () => {
-    const res = await axios.get('http://localhost:5000/api/stocks');
+    const res = await axios.get('process.env.REACT_APP_API_BASE_URL/stocks');
     setStocks(res.data);
   };
 
@@ -15,7 +15,7 @@ const StockList = ({ refresh }) => {
   }, [refresh]);
 
   const deleteStock = async (symbol) => {
-    await axios.delete(`http://localhost:5000/api/stocks/${symbol}`);
+    await axios.delete(`process.env.REACT_APP_API_BASE_URL/stocks/${symbol}`);
     fetchStocks();
   };
 

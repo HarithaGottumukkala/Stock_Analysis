@@ -9,7 +9,7 @@ const PriceHistoryTable = () => {
     if (!symbol) return;
 
     try {
-      const res = await axios.get(`http://localhost:5000/api/stocks/${symbol}/chart`);
+      const res = await axios.get(`process.env.REACT_APP_API_BASE_URL/stocks/${symbol}/chart`);
       const { dates, prices } = res.data;
 
       const rows = dates.map((date, idx) => ({

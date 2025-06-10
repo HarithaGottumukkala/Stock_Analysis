@@ -9,7 +9,7 @@ const AddStock = ({ onAdd }) => {
     if (!symbol) return alert("Please enter a stock symbol");
 
     try {
-      await axios.post('http://localhost:5000/api/stocks', { symbol });
+      await axios.post('process.env.REACT_APP_API_BASE_URL/stocks', { symbol });
       alert(`Stock ${symbol} added successfully`);
       setSymbol('');
       onAdd();  // notify parent to refresh stock list

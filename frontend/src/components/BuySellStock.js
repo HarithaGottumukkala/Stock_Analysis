@@ -8,7 +8,7 @@ const BuySellStock = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.put(`http://localhost:5000/api/stocks/${symbol}/shares`, {
+      const res = await axios.put(`process.env.REACT_APP_API_BASE_URL/stocks/${symbol}/shares`, {
         action,
         amount: parseInt(amount)
       });

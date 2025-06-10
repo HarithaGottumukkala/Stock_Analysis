@@ -14,7 +14,7 @@ const ScrapeFromYahoo = () => {
     }
 
     try {
-      const res = await axios.post(`http://localhost:5000/api/stocks/${symbol}/scrape-range`, {
+      const res = await axios.post(`process.env.REACT_APP_API_BASE_URL/stocks/${symbol}/scrape-range`, {
         start,
         end
       });

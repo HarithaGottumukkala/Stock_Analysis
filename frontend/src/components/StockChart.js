@@ -20,7 +20,7 @@ const StockChart = () => {
 
   const fetchChart = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/stocks/${symbol}/chart`);
+      const res = await axios.get(`process.env.REACT_APP_API_BASE_URL/stocks/${symbol}/chart`);
       const { dates, prices } = res.data;
       setChartData({
         labels: dates,

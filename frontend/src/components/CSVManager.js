@@ -8,7 +8,7 @@ const CSVManager = () => {
     if (!symbol) return alert('Please enter a stock symbol');
 
     try {
-      const res = await axios.get(`http://localhost:5000/api/stocks/${symbol}/export`, {
+      const res = await axios.get(`process.env.REACT_APP_API_BASE_URL/stocks/${symbol}/export`, {
         responseType: 'blob', // Important for file download
       });
 

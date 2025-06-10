@@ -5,7 +5,7 @@ const PortfolioReport = () => {
   const [report, setReport] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/report/summary')
+    axios.get('process.env.REACT_APP_API_BASE_URL/report/summary')
       .then(res => setReport(res.data));
   }, []);
 

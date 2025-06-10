@@ -12,7 +12,7 @@ const StockManager = () => {
   // Fetch stock list
   const fetchStocks = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/stocks');
+      const res = await axios.get('process.env.REACT_APP_API_BASE_URL');
       setStocks(res.data);
     } catch (error) {
       alert("❌ Failed to fetch stock list.");
@@ -24,7 +24,7 @@ const StockManager = () => {
   const addStock = async () => {
     if (!symbol) return alert("Enter a stock symbol");
     try {
-      await axios.post('http://localhost:5000/api/stocks', { symbol });
+      await axios.post('process.env.REACT_APP_API_BASE_URL', { symbol });
       fetchStocks();
       setSymbol('');
     } catch (err) {
@@ -39,7 +39,7 @@ const StockManager = () => {
     if (!confirm) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/stocks/${selectedSymbol}`);
+      await axios.delete(`process.env.REACT_APP_API_BASE_URL/stocks/${selectedSymbol}`);
       setSelectedSymbol('');
       fetchStocks();
     } catch (err) {
@@ -51,7 +51,7 @@ const StockManager = () => {
   const updateShares = async (action) => {
     if (!selectedSymbol || !buySellAmount) return;
     try {
-      await axios.put(`http://localhost:5000/api/stocks/${selectedSymbol}/shares`, {
+      await axios.put(`process.env.REACT_APP_API_BASE_URL/stocks/${selectedSymbol}/shares`, {
         action,
         amount: parseInt(buySellAmount)
       });
@@ -67,7 +67,7 @@ const StockManager = () => {
     if (!selectedSymbol) return alert("Select a stock to scrape");
 
     try {
-      const res = await axios.post(`http://localhost:5000/api/stocks/${selectedSymbol}/scrape-today`);
+      const res = await axios.post(`process.env.REACT_APP_API_BASE_URL/stocks/${selectedSymbol}/scrape-today`);
       alert(`✅ Scraped ${res.data.symbol} @ $${res.data.price} on ${res.data.date}`);
     } catch (err) {
       alert("❌ Failed to scrape today's price.");
