@@ -4,11 +4,14 @@ import axios from 'axios';
 const CSVManager = () => {
   const [symbol, setSymbol] = useState('');
 
+  // Use the backend base URL from environment variables
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const handleDownload = async () => {
     if (!symbol) return alert('Please enter a stock symbol');
 
     try {
-      const res = await axios.get(`process.env.REACT_APP_API_BASE_URL/stocks/${symbol}/export`, {
+      const res = await axios.get(`${API_BASE_URL}/stocks/${symbol}/export`, {
         responseType: 'blob', // Important for file download
       });
 
@@ -23,6 +26,7 @@ const CSVManager = () => {
       document.body.removeChild(link);
     } catch (err) {
       alert('❌ Failed to download CSV.');
+      console.error(err);
     }
   };
 

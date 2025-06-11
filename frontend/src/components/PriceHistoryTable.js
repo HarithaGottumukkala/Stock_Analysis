@@ -5,11 +5,14 @@ const PriceHistoryTable = () => {
   const [symbol, setSymbol] = useState('');
   const [data, setData] = useState([]);
 
+  // Correctly read the backend base URL from environment variable
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const fetchPriceHistory = async () => {
     if (!symbol) return;
 
     try {
-      const res = await axios.get(`process.env.REACT_APP_API_BASE_URL/stocks/${symbol}/chart`);
+      const res = await axios.get(`${API_BASE_URL}/stocks/${symbol}/chart`);
       const { dates, prices } = res.data;
 
       const rows = dates.map((date, idx) => ({
@@ -20,6 +23,7 @@ const PriceHistoryTable = () => {
       setData(rows);
     } catch (error) {
       alert("❌ Could not fetch price data. Make sure it’s scraped first.");
+      console.error(error);
     }
   };
 

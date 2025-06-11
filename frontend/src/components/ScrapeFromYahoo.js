@@ -7,6 +7,9 @@ const ScrapeFromYahoo = () => {
   const [end, setEnd] = useState('');
   const [message, setMessage] = useState('');
 
+  // Get base URL from env variable
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const handleScrape = async () => {
     if (!symbol || !start || !end) {
       setMessage("⚠️ Please enter all fields");
@@ -14,7 +17,7 @@ const ScrapeFromYahoo = () => {
     }
 
     try {
-      const res = await axios.post(`process.env.REACT_APP_API_BASE_URL/stocks/${symbol}/scrape-range`, {
+      const res = await axios.post(`${API_BASE_URL}/stocks/${symbol}/scrape-range`, {
         start,
         end
       });

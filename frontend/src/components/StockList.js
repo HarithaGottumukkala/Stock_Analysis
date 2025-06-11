@@ -5,9 +5,16 @@ import axios from 'axios';
 const StockList = ({ refresh }) => {
   const [stocks, setStocks] = useState([]);
 
+  // Get backend base URL from environment variable
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const fetchStocks = async () => {
-    const res = await axios.get('process.env.REACT_APP_API_BASE_URL/stocks');
-    setStocks(res.data);
+    try {
+      const res = await axios.get(`${API_BASE_URL}/stocks`);
+      setStocks(res.data);
+    } catch (err) {
+      console.error("Failed to fetch stocks:", err);
+    }
   };
 
   useEffect(() => {
@@ -15,8 +22,12 @@ const StockList = ({ refresh }) => {
   }, [refresh]);
 
   const deleteStock = async (symbol) => {
-    await axios.delete(`process.env.REACT_APP_API_BASE_URL/stocks/${symbol}`);
-    fetchStocks();
+    try {
+      await axios.delete(`${API_BASE_URL}/stocks/${symbol}`);
+      fetchStocks(); // Refresh list after deletion
+    } catch (err) {
+      console.error(`Failed to delete ${symbol}:`, err);
+    }
   };
 
   return (
@@ -26,7 +37,12 @@ const StockList = ({ refresh }) => {
         {stocks.map((stock) => (
           <li key={stock.id}>
             {stock.symbol}
-            <button onClick={() => deleteStock(stock.symbol)} style={{ marginLeft: '10px' }}>❌ Delete</button>
+            <button
+              onClick={() => deleteStock(stock.symbol)}
+              style={{ marginLeft: '10px' }}
+            >
+              ❌ Delete
+            </button>
           </li>
         ))}
       </ul>

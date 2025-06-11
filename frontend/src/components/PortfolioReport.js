@@ -4,10 +4,16 @@ import axios from 'axios';
 const PortfolioReport = () => {
   const [report, setReport] = useState(null);
 
+  // Use environment variable for backend base URL
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   useEffect(() => {
-    axios.get('process.env.REACT_APP_API_BASE_URL/report/summary')
-      .then(res => setReport(res.data));
-  }, []);
+    axios.get(`${API_BASE_URL}/report/summary`)
+      .then(res => setReport(res.data))
+      .catch(err => {
+        console.error("Failed to fetch portfolio report:", err);
+      });
+  }, [API_BASE_URL]);
 
   return (
     <div className="report">

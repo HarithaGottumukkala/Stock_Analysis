@@ -18,15 +18,21 @@ const StockChart = () => {
   const [symbol, setSymbol] = useState('');
   const [chartData, setChartData] = useState(null);
 
+  // Get base URL from environment variable
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const fetchChart = async () => {
+    if (!symbol) return;
+
     try {
-      const res = await axios.get(`process.env.REACT_APP_API_BASE_URL/stocks/${symbol}/chart`);
+      const res = await axios.get(`${API_BASE_URL}/stocks/${symbol}/chart`);
       const { dates, prices } = res.data;
+
       setChartData({
         labels: dates,
         datasets: [
           {
-            label: `${symbol} Stock Price`,
+            label: `${symbol.toUpperCase()} Stock Price`,
             data: prices,
             fill: false,
             borderColor: 'blue',

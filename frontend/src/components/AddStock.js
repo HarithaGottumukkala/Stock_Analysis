@@ -5,11 +5,14 @@ import axios from 'axios';
 const AddStock = ({ onAdd }) => {
   const [symbol, setSymbol] = useState('');
 
+  // Read the API base URL from the environment variable
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const handleAddStock = async () => {
     if (!symbol) return alert("Please enter a stock symbol");
 
     try {
-      await axios.post('process.env.REACT_APP_API_BASE_URL/stocks', { symbol });
+      await axios.post(`${API_BASE_URL}/stocks`, { symbol });
       alert(`Stock ${symbol} added successfully`);
       setSymbol('');
       onAdd();  // notify parent to refresh stock list

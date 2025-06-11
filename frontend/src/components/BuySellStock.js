@@ -6,17 +6,22 @@ const BuySellStock = () => {
   const [action, setAction] = useState('buy');
   const [amount, setAmount] = useState(0);
 
+  // Get base URL from environment variable
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const handleSubmit = async () => {
     try {
-      const res = await axios.put(`process.env.REACT_APP_API_BASE_URL/stocks/${symbol}/shares`, {
+      const res = await axios.put(`${API_BASE_URL}/stocks/${symbol}/shares`, {
         action,
         amount: parseInt(amount)
       });
+
       alert(`${res.data.message}. Total shares now: ${res.data.shares}`);
       setSymbol('');
       setAmount(0);
     } catch (err) {
-      alert("Error: " + err.response.data.error);
+      alert("Error: " + (err.response?.data?.error || "Unknown error"));
+      console.error(err);
     }
   };
 
