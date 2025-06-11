@@ -1,5 +1,5 @@
 // src/components/StockList.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 
 const StockList = ({ refresh }) => {
@@ -8,25 +8,24 @@ const StockList = ({ refresh }) => {
   // Get backend base URL from environment variable
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-  useEffect(() => {
-    const fetchStocks = async () => {
-      try {
-        const res = await axios.get(`${API_BASE_URL}/stocks`);
-        setStocks(res.data);
-      } catch (err) {
-        console.error("Failed to fetch stocks:", err);
-      }
-    };
+  // Use useCallback to avoid dependency warning in useEffect
+  const fetchStocks = useCallback(async () => {
+    try {
+      const res = await axios.get(`${API_BASE_URL}/stocks`);
+      setStocks(res.data);
+    } catch (err) {
+      console.error("Failed to fetch stocks:", err);
+    }
+  }, [API_BASE_URL]);
 
+  useEffect(() => {
     fetchStocks();
-  }, [refresh, API_BASE_URL]);
+  }, [fetchStocks, refresh]);
 
   const deleteStock = async (symbol) => {
     try {
       await axios.delete(`${API_BASE_URL}/stocks/${symbol}`);
-      // Refresh after deletion
-      const res = await axios.get(`${API_BASE_URL}/stocks`);
-      setStocks(res.data);
+      fetchStocks(); // Refresh list after deletion
     } catch (err) {
       console.error(`Failed to delete ${symbol}:`, err);
     }
