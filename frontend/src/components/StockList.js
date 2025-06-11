@@ -8,23 +8,25 @@ const StockList = ({ refresh }) => {
   // Get backend base URL from environment variable
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-  const fetchStocks = async () => {
-    try {
-      const res = await axios.get(`${API_BASE_URL}/stocks`);
-      setStocks(res.data);
-    } catch (err) {
-      console.error("Failed to fetch stocks:", err);
-    }
-  };
-
   useEffect(() => {
+    const fetchStocks = async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/stocks`);
+        setStocks(res.data);
+      } catch (err) {
+        console.error("Failed to fetch stocks:", err);
+      }
+    };
+
     fetchStocks();
-  }, [refresh]);
+  }, [refresh, API_BASE_URL]);
 
   const deleteStock = async (symbol) => {
     try {
       await axios.delete(`${API_BASE_URL}/stocks/${symbol}`);
-      fetchStocks(); // Refresh list after deletion
+      // Refresh after deletion
+      const res = await axios.get(`${API_BASE_URL}/stocks`);
+      setStocks(res.data);
     } catch (err) {
       console.error(`Failed to delete ${symbol}:`, err);
     }
